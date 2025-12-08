@@ -1,3 +1,4 @@
+
 # Adactin Hotel Booking – Cucumber Selenium Automation Framework
 
 This project automates the **Adactin Hotel Booking Application** using:
@@ -7,7 +8,7 @@ This project automates the **Adactin Hotel Booking Application** using:
 * **Java**
 * **JUnit**
 * **Maven**
-* **TestNG Annotations (used inside step class)**
+* **TestNG Annotations** (used inside step class)
 * **ChromeDriver / WebDriverManager**
 
 The framework covers:
@@ -46,12 +47,12 @@ mavenProject1/
 
 ---
 
-# 📝 **Feature File: write.feature**
+## 📝 Feature File: `write.feature`
 
 ```gherkin
 Feature: Validate the Adactin hotel booking application
 
-Scenario Outline: Validate of Adactin login page using valid userName and valid Password and check hotel booking fields
+Scenario Outline: Validate Adactin login page using valid credentials and check hotel booking fields
   Given User is on Adactin login page
   When User enters the Valid <user> and Valid <pass>
   And User clicks on the login button and validate hotel booking fields
@@ -60,71 +61,67 @@ Scenario Outline: Validate of Adactin login page using valid userName and valid 
 
 ---
 
-# 🧪 **Test Runner (JUnit)**
+## 🧪 Test Runner (JUnit)
 
 ```java
 @RunWith(Cucumber.class)
 @CucumberOptions(
     features="src/test/resources/Feature/write.feature",
-    glue="com.step,com.inputs"
+    glue="com.step,com.inputs",
+    plugin = {"pretty", "html:target/cucumber-report", "json:target/cucumber.json"}
 )
 public class TestRunnerClass {
-
 }
 ```
 
-🔹 Runs the feature file
-🔹 Connects step definitions from `com.step` and `com.inputs`
-🔹 Uses JUnit as Cucumber runner
+* Runs the feature file
+* Connects step definitions from `com.step` and `com.inputs`
+* Uses **JUnit** as Cucumber runner
+* Generates HTML & JSON reports
 
 ---
 
-# 🧩 **Step Definitions (Selenium + Cucumber)**
+## 🧩 Step Definitions (`StepDefinitionClass.java`)
 
-Your `StepDefinitionClass.java` performs the following automation steps:
+The `StepDefinitionClass.java` performs the following automation steps:
 
-### ✔ Launch browser & navigate
+### 1. Launch Browser & Navigate
 
 * Opens Chrome using WebDriverManager
 * Loads Adactin homepage
 * Maximizes window
-* Sets wait, clears cookies
+* Sets waits and clears cookies
 
-### ✔ Login
+### 2. Login
 
 * Enters username and password
 * Clicks login button
 
-### ✔ Booking form
+### 3. Booking Form
 
-* Selects location
-* Selects hotel
-* Selects room type
-* Selects number of rooms
+* Selects location, hotel, room type, and number of rooms
 * Enters check-in and check-out dates
 * Selects adults and children
-* Clicks “Search”
+* Clicks **Search**
 
-### ✔ Select hotel & enter customer details
+### 4. Select Hotel & Enter Customer Details
 
 * Chooses the first hotel option
 * Continues to payments page
-* Enters name, address, credit-card details
+* Enters name, address, credit card details
 * Submits booking
 
-### ✔ Cancel booking
+### 5. Cancel Booking
 
 * Opens itinerary
 * Selects first booking
-* Cancels
-* Accepts alert
+* Cancels and accepts alert
 
-### ✔ Logout message
+### 6. Logout Message
 
-* Validates:
-  **"You have successfully logged out."**
+* Validates: `"You have successfully logged out."`
 
-### ✔ After Hooks
+### 7. After Hooks
 
 * Prints timestamp after every test
 * Prints suite completion message
@@ -133,16 +130,8 @@ Your `StepDefinitionClass.java` performs the following automation steps:
 
 ## ▶️ Running Tests
 
-### **Run using Maven**
-
-```sh
-mvn clean test
-```
-
-### **Run from IDE**
-
-* Right-click `TestRunnerClass.java`
-* Select **Run As → JUnit Test**
+* **Maven**: `mvn clean test`
+* **IDE**: Right-click `TestRunnerClass.java` → Run As → JUnit Test
 
 ---
 
@@ -156,57 +145,79 @@ mvn clean test
 
 ---
 
-## 📦 Sample Dependencies (pom.xml)
+## 📦 Updated `pom.xml` Dependencies
 
 ```xml
-<dependencies>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+         https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.sample</groupId>
+  <artifactId>mavenProject1</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+
+  <dependencies>
+    <!-- Selenium -->
     <dependency>
-        <groupId>io.cucumber</groupId>
-        <artifactId>cucumber-java</artifactId>
-        <version>4.8.1</version>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-java</artifactId>
+      <version>4.11.0</version>
     </dependency>
 
+    <!-- Apache POI -->
     <dependency>
-        <groupId>io.cucumber</groupId>
-        <artifactId>cucumber-junit</artifactId>
-        <version>4.8.1</version>
-        <scope>test</scope>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi-ooxml</artifactId>
+      <version>4.1.2</version>
     </dependency>
 
+    <!-- JUnit -->
     <dependency>
-        <groupId>org.seleniumhq.selenium</groupId>
-        <artifactId>selenium-java</artifactId>
-        <version>4.20.0</version>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>test</scope>
     </dependency>
 
+    <!-- WebDriverManager -->
     <dependency>
-        <groupId>io.github.bonigarcia</groupId>
-        <artifactId>webdrivermanager</artifactId>
-        <version>5.8.0</version>
+      <groupId>io.github.bonigarcia</groupId>
+      <artifactId>webdrivermanager</artifactId>
+      <version>5.3.2</version>
     </dependency>
 
+    <!-- TestNG -->
     <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.13.2</version>
-        <scope>test</scope>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <version>6.14.3</version>
+      <scope>test</scope>
     </dependency>
-</dependencies>
+
+    <!-- Cucumber JUnit -->
+    <dependency>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-junit</artifactId>
+      <version>4.2.0</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Cucumber Java -->
+    <dependency>
+      <groupId>io.cucumber</groupId>
+      <artifactId>cucumber-java</artifactId>
+      <version>4.2.0</version>
+    </dependency>
+
+    <!-- BoofCV Applet -->
+    <dependency>
+      <groupId>org.boofcv</groupId>
+      <artifactId>applet</artifactId>
+      <version>0.20</version>
+    </dependency>
+  </dependencies>
+</project>
 ```
-
----
-
-# 📊 Reports
-
-You can add reporting plugins inside the runner:
-
-```java
-plugin = {
-    "pretty",
-    "html:target/cucumber-report",
-    "json:target/cucumber.json"
-}
 ```
-
----
 
